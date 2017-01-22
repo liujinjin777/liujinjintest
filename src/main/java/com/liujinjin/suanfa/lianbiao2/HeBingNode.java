@@ -3,6 +3,8 @@ package com.liujinjin.suanfa.lianbiao2;
 import com.liujinjin.suanfa.common.Node;
 
 /**
+ * 合并两个有序链表
+ *
  * Created by liuxin on 17/1/20.
  */
 public class HeBingNode {

@@ -1,5 +1,7 @@
 package com.liujinjin.suanfa.lianbiao;
 
+import com.liujinjin.suanfa.common.Node;
+
 /**
  * Created by liuxin on 17/1/19.
  */

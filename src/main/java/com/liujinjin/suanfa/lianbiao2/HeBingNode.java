@@ -17,7 +17,7 @@ public class HeBingNode {
         Node nodeMinHead = null;
 
         // 区分大小头结点
-        if(Integer.valueOf(nodeA.value.toString()) > Integer.valueOf(String.valueOf(nodeB.value))){
+        if(nodeA.value > nodeB.value){
             nodeMaxHead = nodeA;
             nodeMinHead = nodeB;
         }else {
@@ -31,7 +31,7 @@ public class HeBingNode {
 
         while(nodeMinHead != null && nodeMaxHead != null){
             // 插入节点
-            if(Integer.valueOf(String.valueOf(nodeMinHead.value)) > Integer.valueOf(String.valueOf(nodeMaxHead.value))){
+            if(nodeMinHead.value > nodeMaxHead.value){
                 Node tempNode = nodeMaxHead;
                 nodeMaxHead = nodeMaxHead.next;
 

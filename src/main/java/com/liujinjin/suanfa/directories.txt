@@ -1,5 +1,5 @@
 
-lianbiao.T1              【反转单向链表】
+lianbiao.T1               【反转单向链表】
 
 
 lianbiao2.Merge2Node      【合并两个已经排序的单链表（思路类似于归并排序中的合并算法）】
@@ -10,4 +10,4 @@ lianbiao2.DeleteNode      【假设有两个单链表A和B，不带头节点，�
                                     请逆转交替合并两个链表
                                     4->d->3->c->2->b->1->a】
 
-
+str.MaxStr                【只用一次循环, 查找出第一次出现一个的字符】

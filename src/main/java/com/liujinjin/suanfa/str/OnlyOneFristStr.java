@@ -8,7 +8,7 @@ package com.liujinjin.suanfa.str;
 public class OnlyOneFristStr {
 
     public static void main(String[] args) {
-        String str = "ss";
+        String str = "ss22a dbaa";
         System.out.println(OnlyOneFristStr.getOnlyOneFristStr(str));
     }
 

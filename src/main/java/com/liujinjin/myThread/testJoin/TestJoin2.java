@@ -13,6 +13,7 @@ public class TestJoin2 {
 
     public static void main(String[] sure) throws InterruptedException {
         Thread t = new Thread(() ->{
+            System.out.println("TestJoin start");
                  synchronized (Thread.currentThread()) {
                      for (int i = 1; i <= 5; i++) {
                          try {
@@ -29,7 +30,7 @@ public class TestJoin2 {
 
         long start = System.currentTimeMillis();
         t.start();
-        t.join(1000);//等待线程t 1000毫秒
+        //t.join(1000);//等待线程t 1000毫秒
         System.out.println(System.currentTimeMillis()-start);//打印出时间间隔
         System.out.println("Main finished");//打印主线程结束
 

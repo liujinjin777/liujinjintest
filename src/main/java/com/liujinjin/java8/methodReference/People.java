@@ -40,12 +40,4 @@ public class People {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "People{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", age='" + age + '\'' +
-                '}';
-    }
 }

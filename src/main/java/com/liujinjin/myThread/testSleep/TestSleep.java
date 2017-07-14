@@ -28,5 +28,6 @@ public class TestSleep {
 
         thread.start();
         thread2.start();
+        //Thread.sleep(1000L);
     }
 }

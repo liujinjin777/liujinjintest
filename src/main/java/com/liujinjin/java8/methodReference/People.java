@@ -1,14 +1,17 @@
 package com.liujinjin.java8.methodReference;
 
+import lombok.Data;
+
 /**
  * Created by liuxin on 2017/4/24.
  */
+@Data
 public class People {
 
     String id;
     String name;
     int age;
-
+    int[] aaa;
     public People() {}
 
     public People(String id, String name) {

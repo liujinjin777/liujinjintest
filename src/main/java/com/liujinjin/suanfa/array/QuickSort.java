@@ -8,7 +8,7 @@ import java.util.Arrays;
 public class QuickSort {
 
     public static void main(String[] args) {
-        int[] a = {3,1,2,5,2};
+        int[] a = {8,8,8,8,3,1,2,5,2};
         quickSort(a);
         System.out.println(Arrays.toString(a));
     }
@@ -20,7 +20,7 @@ public class QuickSort {
     }
 
     private static void sort(int[] array, int start, int end){
-        int povit = array[0];
+        int povit = array[start];
         int left = start;
         int right = end;
 

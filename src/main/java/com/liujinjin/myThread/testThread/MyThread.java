@@ -7,6 +7,9 @@ public class MyThread extends Thread{
 
     @Override
     public void run() {
-        System.out.println("1");
+
+        System.out.println(1);
+        throw new RuntimeException();
+
     }
 }

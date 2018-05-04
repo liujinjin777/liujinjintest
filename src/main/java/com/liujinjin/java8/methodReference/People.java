@@ -12,6 +12,8 @@ public class People {
     String name;
     int age;
     int[] aaa;
+    Boolean flag = true;
+
     public People() {}
 
     public People(String id, String name) {

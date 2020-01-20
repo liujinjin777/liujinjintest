@@ -3,6 +3,7 @@ package com.liujinjin.guava;
 import com.google.common.base.Optional;
 import com.google.common.collect.*;
 import com.liujinjin.java8.methodReference.People;
+import lombok.Data;
 
 import java.util.Collection;
 import java.util.Set;
@@ -12,6 +13,11 @@ import java.util.Set;
  * @date 2017/12/24
  */
 public class MultimapTest {
+
+    @Data
+    public static class T2{
+        int a = 1;
+    }
 
     public static void main(String[] args) {
         // testBitMap();

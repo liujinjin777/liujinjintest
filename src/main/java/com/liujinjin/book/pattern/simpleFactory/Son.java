@@ -6,5 +6,10 @@ package com.liujinjin.book.pattern.simpleFactory;
  */
 public class Son extends Father {
 
+    private int i;
 
+    @Override
+    public int getI() {
+        return i;
+    }
 }

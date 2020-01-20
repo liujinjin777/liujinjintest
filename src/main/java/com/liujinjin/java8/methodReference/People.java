@@ -1,15 +1,21 @@
 package com.liujinjin.java8.methodReference;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.annotation.JSONType;
 import lombok.Data;
 
 /**
  * Created by liuxin on 2017/4/24.
  */
 @Data
+@JSONType(ignores = {"age", "aaa", "flag"})
 public class People {
 
+    @JSONField(name = "id是")
     String id;
+    @JSONField(name = "name是")
     String name;
+
     int age;
     int[] aaa;
     Boolean flag = true;

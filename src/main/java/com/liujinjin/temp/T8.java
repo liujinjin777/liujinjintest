@@ -20,7 +20,7 @@ public class T8 {
         people.setAge(1);
         people.setName("people1");
         people.setId("1");
-        people.setAaa(new int[]{1, 3, 5});
+        //people.setAaa(new int[]{1, 3, 5});
         People people2 = new People();
         people2.setAge(2);
         people2.setName("people2");

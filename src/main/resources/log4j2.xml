@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <!-- 控制台日志 -->
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="[log4j2]%d [%7r] %6p - %30.30c - %m \n" />
+        </Console>
+    </Appenders>
+
+    <!--定义logger，定义了logger并引入的appender -->
+    <Loggers>
+
+        <Root level="info">
+            <appender-ref ref="Console"/>
+        </Root>
+    </Loggers>
+
+</Configuration>

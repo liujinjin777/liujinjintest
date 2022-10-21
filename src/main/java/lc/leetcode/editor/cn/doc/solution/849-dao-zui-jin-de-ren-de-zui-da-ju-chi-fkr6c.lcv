@@ -1,0 +1,40 @@
+### 解题思路
+
+1. 假如坐在最左边，取决于遇到的第一个人。
+2. 假如坐在最右边，取决于遇到的最后一个人。
+3. 坐在中间，出现在最大间距时，最大间距的一半（有可能就是前两种情况）。
+
+### 代码
+
+* java
+
+```java
+class Solution {
+	public int maxDistToClosest(int[] seats) {
+		int max = 0;
+		int left = -1;
+		int len = seats.length;
+		int maxLeft = 0;
+		int maxRight = len - 1;
+		int ansSiteLeft = 0;
+		for (int i = 0; i < len; i++) {
+			if (seats[i] == 1) {
+				if (left == -1) {
+					ansSiteLeft = i;// 加入坐在最左边，距离是多少。
+				}
+				int distance = i - left;
+				if (distance > max) {// 最大间距
+					maxLeft = left;
+					maxRight = i;
+					max = distance;
+				}
+				left = i;
+			}
+		}
+		int ans = (maxRight - maxLeft) >> 1;// 坐在中间，两边有人（可能是假装两边有人）,最大距离
+		int ansSiteRight = len - 1 - left; // 坐在最右边，left是坐在最右边的最后一个人
+		return Math.max(Math.max(ansSiteLeft, ansSiteRight),ans);// 三者中最大
+	}
+}
+```
+

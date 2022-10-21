@@ -1,0 +1,45 @@
+### 解题思路
+
+经过思考之后本题相当于计算连续0的最大值。在不以0开头且不以0结尾的情况下，如果中间有一段长度为偶数的连续0，而到两边有人出的最大距离是偶数长度模以2；为奇数的话则为长度模以2在加1。
+
+因此我们只需要一次遍历，并根据上述方式计算出最大值即可。
+
+但是，有特殊情况，比如：0000011001000，当存在以0开头或以0结尾时，计算方法与上述有别，此时应为开头或结尾连续0的长度。
+
+因此综上两种情况，在遍历数组的途中不断比较，遍历完之后的最大值即是结果。
+
+### 代码
+
+* java
+
+```java
+class Solution {
+    public int maxDistToClosest(int[] seats) {
+        int maxDis = 0;
+        int temp = 0;
+        int idx = 0;
+
+        int head = 0;
+        if(seats[0] == 0) {
+            while(seats[idx] == 0) {
+                idx++;
+                head++;
+            }
+        }
+        for(int i = idx; i < seats.length; i++) {
+            if(seats[i] == 0) temp++;
+            else {
+                maxDis = Math.max(maxDis, temp);
+                temp = 0;
+            }
+        }
+        
+        if((maxDis&1) == 0) {
+            maxDis =  maxDis/2;
+        }else maxDis =  maxDis/2+1;
+
+        return Math.max(maxDis, Math.max(head, temp));
+    }
+}
+```
+

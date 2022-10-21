@@ -1,0 +1,29 @@
+### 解题思路
+
+从最左开始遍历，若右边的数B大于左边的数A，则记录差值，直至遇到更小的数C,此时记录了A到C之间的最大差值；
+若遇到更小的数C，则再向右遍历到数D时，因为C<A，所以最大的差值一定不是D-A，而是D-C。
+综上所述，只需要遍历一遍即可，时间复杂度O(n),空间复杂度O(1)
+
+### 代码
+
+* java
+
+```java
+class Solution {
+    public int maximumDifference(int[] nums) {
+        int left=0;
+        int right=1;
+        int max=-1;
+        while(right<nums.length){
+            if(nums[left]<nums[right]){
+                max = Math.max(max,nums[right]-nums[left]);
+            }else{
+                left=right;
+            }
+            right++;
+        }
+        return max;
+    }
+}
+```
+

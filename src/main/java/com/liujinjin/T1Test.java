@@ -186,6 +186,23 @@ public class T1Test {
         System.out.println(pushConfig1);
     }
 
+    @Test
+    public void t() {
+        Integer a = 1000;
+        Integer b = 1000;
+        System.out.println(a == b);
+
+        System.out.println(0.05 + 0.01);
+        System.out.println(1.0 - 0.42);
+        System.out.println(4.015 * 100);
+        System.out.println(123.3 / 100);
+
+        double c = 10 * 0.01;
+        System.out.println(c);
+        System.out.println(303.1 / 1000);
+        System.out.println(303 * 0.001);
+    }
+
 
     private static String stackTraceToString(Exception e) {
         StringWriter sw = new StringWriter();
@@ -200,6 +217,29 @@ public class T1Test {
         return sw.toString();
 
     }
+
+
+    public static void main(String[] args) {
+        System.out.println(myPow(2, -2147483648));
+    }
+
+    public static double myPow(double x, int n) {
+        if (n == 0) {
+            return 1;
+        } else if (n == 1) {
+            return x;
+        }
+        boolean fu = (n < 0);
+        if (fu) {
+            n = -n;
+        }
+
+        double ou = (n % 2 == 1) ? x : 1;
+        double res = myPow(x, n / 2);
+
+        return fu ? 1 / (res * res * ou) : (res * res * ou);
+    }
+
 
 
 }

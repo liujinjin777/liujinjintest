@@ -1,0 +1,32 @@
+枚举 $j$，同时维护前面遍历过的元素的最小值 $\textit{preMin}$，那么最大差值就是所有 $\textit{nums}[j]-\textit{preMin}$ 中的最大值。如果最大值不为正，则返回 $-1$。
+
+* go
+
+```go
+func maximumDifference(nums []int) (ans int) {
+	preMin := nums[0]
+	for j := 1; j < len(nums); j++ {
+		ans = max(ans, nums[j]-preMin)
+		preMin = min(preMin, nums[j])
+	}
+	if ans == 0 {
+		ans--
+	}
+	return
+}
+
+func min(a, b int) int {
+	if a > b {
+		return b
+	}
+	return a
+}
+
+func max(a, b int) int {
+	if b > a {
+		return b
+	}
+	return a
+}
+```
+

@@ -1,0 +1,40 @@
+### 解题思路
+
+首尾的0的个数要*2和中间0的个数判断
+
+### 代码
+
+* java
+
+```java
+class Solution {
+    public int maxDistToClosest(int[] seats) {
+        int count=0,max=0;
+        boolean isFirst=true;
+        int len=seats.length;
+        for(int i=0;i<len;i++){
+            if(seats[i]==0){
+                count++;
+                if(i==len-1){
+                    if(count*2>max){
+                        max=count*2;
+                    }
+                }
+            }else{
+                if(isFirst){
+                    if(count*2>max){
+                        max=count*2;
+                    }
+                }
+                isFirst=false;
+                if(count>max){
+                    max=count;
+                }
+                count=0;
+            }
+        }
+        return (max+1)/2;
+    }
+}
+```
+

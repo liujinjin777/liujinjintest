@@ -1,0 +1,32 @@
+### 代码
+
+* java
+
+```java
+class Solution {
+
+    Random rand = new Random();
+    Map<Integer, List<Integer>> map = new HashMap<>();
+
+    public Solution(int[] nums) {
+        for (int i = 0; i < nums.length; i++){
+            List<Integer> lst = map.getOrDefault(nums[i], new ArrayList<>());
+            lst.add(i);
+            map.put(nums[i], lst);
+        }
+    }
+    
+    public int pick(int target) {
+        List<Integer> lst = map.get(target);
+        int size = lst.size();
+        return lst.get(rand.nextInt(size));
+    }
+}
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution obj = new Solution(nums);
+ * int param_1 = obj.pick(target);
+ */
+```
+

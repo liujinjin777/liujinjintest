@@ -1,0 +1,56 @@
+![screenshot-20210831-213052.png](https://pic.leetcode-cn.com/1630416700-tuSUgw-screenshot-20210831-213052.png)
+
+### 解题思路
+
+贪心解法
+1. 对于每个位置，我们去计算一个左边或者右边的最远距离
+   - 如果是1，则是0； 如果是0，则是左边+1
+   - 默认设置为最大值，如N
+2. 再次遍历记录左右最近距离，得到当前位置的两者的最小值，所有最小值里的最大值就是结果
+
+### 代码
+
+* cpp
+
+```cpp
+
+class Solution {
+public:
+    int maxDistToClosest(vector<int>& seats) {
+        int n = seats.size();
+        int left[n];
+        int right[n];
+        memset(left, 0x3f3f3f3f, sizeof(left));
+        memset(right, 0x3f3f3f3f, sizeof(right));
+        for (int i = 0; i < n; ++i)
+        {
+            if (seats[i] == 1)
+            {
+                left[i] = 0;
+            } else if (i > 0)
+            {
+                left[i] = left[i-1] + 1;
+            }               
+        }
+        for (int i = n-1; i >= 0; --i)
+        {
+            if (seats[i] == 1)
+            {
+                right[i] = 0;
+            } else if (i < n-1)
+            {
+                right[i] = right[i+1] + 1;
+            }               
+        }
+
+        int res = 0;
+        for (int i = 0; i < n; ++i)
+        {
+            res = max(res, min(left[i], right[i]));
+        }
+
+        return res;
+    }
+};
+```
+

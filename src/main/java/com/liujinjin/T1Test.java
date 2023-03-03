@@ -7,6 +7,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.liujinjin.java8.methodReference.People;
+import jodd.util.ThreadUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.junit.Test;
 
@@ -238,6 +239,38 @@ public class T1Test {
         double res = myPow(x, n / 2);
 
         return fu ? 1 / (res * res * ou) : (res * res * ou);
+    }
+
+    @Test
+    public void shuangSeQiuMain() {
+        for (int i = 0; i < 5; i++) {
+            shuangSeQiu();
+            ThreadUtil.sleep(1000);
+        }
+    }
+
+    @Test
+    public void shuangSeQiu() {
+        List<Integer> list1 = new ArrayList<>();
+        List<Integer> list2 = new ArrayList<>();
+        for (int i = 1; i <= 33; i++) {
+            list1.add(i);
+        }
+        for (int i = 1; i <= 16; i++) {
+            list2.add(i);
+        }
+
+        Collections.shuffle(list1);
+        Collections.shuffle(list2);
+
+        List<Integer> retList = new ArrayList<>();
+        retList.addAll(list1.subList(0, 7));
+
+        list2.removeAll(retList);
+        Collections.sort(retList);
+        retList.addAll(list2.subList(0, 1));
+
+        System.out.println(retList);
     }
 
 

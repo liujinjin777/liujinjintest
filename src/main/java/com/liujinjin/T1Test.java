@@ -2,12 +2,13 @@ package com.liujinjin;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.liujinjin.java8.methodReference.People;
-import jodd.util.ThreadUtil;
+import java.util.stream.IntStream;
 import org.apache.commons.collections.CollectionUtils;
 import org.junit.Test;
 
@@ -243,9 +244,8 @@ public class T1Test {
 
     @Test
     public void shuangSeQiuMain() {
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 1; i++) {
             shuangSeQiu();
-            ThreadUtil.sleep(1000);
         }
     }
 
@@ -259,14 +259,15 @@ public class T1Test {
         for (int i = 1; i <= 16; i++) {
             list2.add(i);
         }
+        IntStream.rangeClosed(1, 10)
+                .boxed();
 
         Collections.shuffle(list1);
         Collections.shuffle(list2);
 
         List<Integer> retList = new ArrayList<>();
-        retList.addAll(list1.subList(0, 7));
+        retList.addAll(list1.subList(0, 6));
 
-        list2.removeAll(retList);
         Collections.sort(retList);
         retList.addAll(list2.subList(0, 1));
 
@@ -274,5 +275,39 @@ public class T1Test {
     }
 
 
+    @Test
+    public void random() throws InterruptedException {
+        Stopwatch started = Stopwatch.createStarted();
+
+        ExecutorService executor = Executors.newWorkStealingPool();
+        List<Callable<Integer>> callables = new ArrayList<>();
+        Random random = new Random();
+        for (int i = 0; i < 10000; i++) {
+            callables.add(() -> {
+                return random.nextInt();
+            });
+        }
+        executor.invokeAll(callables);
+
+        // cost 90.54 ms
+        System.out.println("cost " + started.stop());
+    }
+
+    @Test
+    public void threadRandom() throws InterruptedException {
+        Stopwatch started = Stopwatch.createStarted();
+
+        ExecutorService executor = Executors.newWorkStealingPool();
+        List<Callable<Integer>> callables = new ArrayList<>();
+        for (int i = 0; i < 10000; i++) {
+            callables.add(() -> {
+                return ThreadLocalRandom.current().nextInt();
+            });
+        }
+        executor.invokeAll(callables);
+
+        // cost 80.64 ms
+        System.out.println("cost " + started.stop());
+    }
 
 }

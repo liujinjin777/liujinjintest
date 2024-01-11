@@ -15,7 +15,7 @@ public class Node {
     }
 
     public Node(int val) {
-
+        this.val = val;
     }
 
     public int getVal() {
@@ -36,6 +36,10 @@ public class Node {
 
     @Override
     public String toString() {
-        return "Node{val=" + val + ", next=" + next + '}';
+        return "Node{" +
+            "val=" + val +
+            ", next=" + (next == null ? "" : next) +
+            ", random=" + (random == null ? -1 : random.val) +
+            '}';
     }
 }

@@ -1,0 +1,460 @@
+**《代码随想录》算法视频公开课：[【视频讲解】 | LeetCode：78.子集](https://www.bilibili.com/video/BV1U84y1q7Ci)，相信结合视频再看本篇题解，更有助于大家对本题的理解**。
+
+# 思路
+
+求子集问题和[77.组合](https://programmercarl.com/0077.组合.html)和[131.分割回文串](https://programmercarl.com/0131.分割回文串.html)又不一样了。
+
+如果把 子集问题、组合问题、分割问题都抽象为一棵树的话，**那么组合问题和分割问题都是收集树的叶子节点，而子集问题是找树的所有节点！**
+
+其实子集也是一种组合问题，因为它的集合是无序的，子集{1,2} 和 子集{2,1}是一样的。
+
+**那么既然是无序，取过的元素不会重复取，写回溯算法的时候，for就要从startIndex开始，而不是从0开始！**
+
+有同学问了，什么时候for可以从0开始呢？
+
+求排列问题的时候，就要从0开始，因为集合是有序的，{1, 2} 和{2, 1}是两个集合，排列问题我们后续的文章就会讲到的。
+
+以示例中nums = [1,2,3]为例把求子集抽象为树型结构，如下：
+
+![image.png](https://pic.leetcode.cn/1674874362-hBHNCS-image.png)
+
+从图中红线部分，可以看出**遍历这个树的时候，把所有节点都记录下来，就是要求的子集集合**。
+
+## 回溯三部曲
+
+* 递归函数参数
+
+全局变量数组path为子集收集元素，二维数组result存放子集组合。（也可以放到递归函数参数里）
+
+递归函数参数在上面讲到了，需要startIndex。
+
+代码如下：
+
+* cpp
+
+```cpp
+vector<vector<int>> result;
+vector<int> path;
+void backtracking(vector<int>& nums, int startIndex) {
+```
+
+递归终止条件
+
+从图中可以看出：
+
+![image.png](https://pic.leetcode.cn/1674874362-hBHNCS-image.png)
+
+剩余集合为空的时候，就是叶子节点。
+
+那么什么时候剩余集合为空呢？
+
+就是startIndex已经大于数组的长度了，就终止了，因为没有元素可取了，代码如下:
+
+* cpp
+
+```cpp
+if (startIndex >= nums.size()) {
+    return;
+}
+```
+
+**其实可以不需要加终止条件，因为startIndex >= nums.size()，本层for循环本来也结束了**。
+
+* 单层搜索逻辑
+
+**求取子集问题，不需要任何剪枝！因为子集就是要遍历整棵树**。
+
+那么单层递归逻辑代码如下：
+
+* 
+
+```
+for (int i = startIndex; i < nums.size(); i++) {
+    path.push_back(nums[i]);    // 子集收集元素
+    backtracking(nums, i + 1);  // 注意从i+1开始，元素不重复取
+    path.pop_back();            // 回溯
+}
+```
+
+## C++代码
+
+根据[关于回溯算法，你该了解这些！](https://programmercarl.com/回溯算法理论基础.html)给出的回溯算法模板：
+
+* 
+
+```
+void backtracking(参数) {
+    if (终止条件) {
+        存放结果;
+        return;
+    }
+
+    for (选择：本层集合中元素（树中节点孩子的数量就是集合的大小）) {
+        处理节点;
+        backtracking(路径，选择列表); // 递归
+        回溯，撤销处理结果
+    }
+}
+```
+
+可以写出如下回溯算法C++代码：
+
+* CPP
+
+```CPP
+class Solution {
+private:
+    vector<vector<int>> result;
+    vector<int> path;
+    void backtracking(vector<int>& nums, int startIndex) {
+        result.push_back(path); // 收集子集，要放在终止添加的上面，否则会漏掉自己
+        if (startIndex >= nums.size()) { // 终止条件可以不加
+            return;
+        }
+        for (int i = startIndex; i < nums.size(); i++) {
+            path.push_back(nums[i]);
+            backtracking(nums, i + 1);
+            path.pop_back();
+        }
+    }
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+        result.clear();
+        path.clear();
+        backtracking(nums, 0);
+        return result;
+    }
+};
+
+```
+
+在注释中，可以发现可以不写终止条件，因为本来我们就要遍历整棵树。
+
+有的同学可能担心不写终止条件会不会无限递归？
+
+并不会，因为每次递归的下一层就是从i+1开始的。
+
+# 总结
+
+相信大家经过了
+* 组合问题：
+  * [77.组合](https://programmercarl.com/0077.组合.html)
+  * [回溯算法：组合问题再剪剪枝](https://programmercarl.com/0077.组合优化.html)
+  * [216.组合总和III](https://programmercarl.com/0216.组合总和III.html)
+  * [17.电话号码的字母组合](https://programmercarl.com/0017.电话号码的字母组合.html)
+  * [39.组合总和](https://programmercarl.com/0039.组合总和.html)
+  * [40.组合总和II](https://programmercarl.com/0040.组合总和II.html)
+* 分割问题：
+  * [131.分割回文串](https://programmercarl.com/0131.分割回文串.html)
+  * [93.复原IP地址](https://programmercarl.com/0093.复原IP地址.html)
+
+洗礼之后，发现子集问题还真的有点简单了，其实这就是一道标准的模板题。
+
+但是要清楚子集问题和组合问题、分割问题的的区别，**子集是收集树形结构中树的所有节点的结果**。
+
+**而组合问题、分割问题是收集树形结构中叶子节点的结果**。
+
+# 其他语言版本
+
+* []
+
+```java
+class Solution {
+    List<List<Integer>> result = new ArrayList<>();// 存放符合条件结果的集合
+    LinkedList<Integer> path = new LinkedList<>();// 用来存放符合条件结果
+    public List<List<Integer>> subsets(int[] nums) {
+        subsetsHelper(nums, 0);
+        return result;
+    }
+
+    private void subsetsHelper(int[] nums, int startIndex){
+        result.add(new ArrayList<>(path));//「遍历这个树的时候，把所有节点都记录下来，就是要求的子集集合」。
+        if (startIndex >= nums.length){ //终止条件可不加
+            return;
+        }
+        for (int i = startIndex; i < nums.length; i++){
+            path.add(nums[i]);
+            subsetsHelper(nums, i + 1);
+            path.removeLast();
+        }
+    }
+}
+```
+
+* []
+
+```python
+class Solution:
+    def __init__(self):
+        self.path: List[int] = []
+        self.paths: List[List[int]] = []
+
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        self.paths.clear()
+        self.path.clear()
+        self.backtracking(nums, 0)
+        return self.paths
+
+    def backtracking(self, nums: List[int], start_index: int) -> None:
+        # 收集子集，要先于终止判断
+        self.paths.append(self.path[:])
+        # Base Case
+        if start_index == len(nums):
+            return
+
+        # 单层递归逻辑
+        for i in range(start_index, len(nums)):
+            self.path.append(nums[i])
+            self.backtracking(nums, i+1)
+            self.path.pop()     # 回溯
+```
+
+* []
+
+```Go
+var (
+    path   []int
+    res  [][]int
+)
+func subsets(nums []int) [][]int {
+    res, path = make([][]int, 0), make([]int, 0, len(nums))
+    dfs(nums, 0)
+    return res
+}
+func dfs(nums []int, start int) {
+    tmp := make([]int, len(path))
+    copy(tmp, path)
+    res = append(res, tmp)
+
+    for i := start; i < len(nums); i++ {
+        path = append(path, nums[i])
+        dfs(nums, i+1)
+        path = path[:len(path)-1]
+    }
+}
+```
+
+* []
+
+```Javascript
+var subsets = function(nums) {
+    let result = []
+    let path = []
+    function backtracking(startIndex) {
+        result.push([...path])
+        for(let i = startIndex; i < nums.length; i++) {
+            path.push(nums[i])
+            backtracking(i + 1)
+            path.pop()
+        }
+    }
+    backtracking(0)
+    return result
+};
+```
+
+* []
+
+```typescript
+function subsets(nums: number[]): number[][] {
+    const resArr: number[][] = [];
+    backTracking(nums, 0, []);
+    return resArr;
+    function backTracking(nums: number[], startIndex: number, route: number[]): void {
+        resArr.push([...route]);
+        let length = nums.length;
+        if (startIndex === length) return;
+        for (let i = startIndex; i < length; i++) {
+            route.push(nums[i]);
+            backTracking(nums, i + 1, route);
+            route.pop();
+        }
+    }
+};
+```
+
+* []
+
+```Rust
+impl Solution {
+    fn backtracking(result: &mut Vec<Vec<i32>>, path: &mut Vec<i32>, nums: &Vec<i32>, start_index: usize) {
+        result.push(path.clone());
+        let len = nums.len();
+        // if start_index >= len { return; }
+        for i in start_index..len {
+            path.push(nums[i]);
+            Self::backtracking(result, path, nums, i + 1);
+            path.pop();
+        }
+    }
+
+    pub fn subsets(nums: Vec<i32>) -> Vec<Vec<i32>> {
+        let mut result: Vec<Vec<i32>> = Vec::new();
+        let mut path: Vec<i32> = Vec::new();
+        Self::backtracking(&mut result, &mut path, &nums, 0);
+        result
+    }
+}
+```
+
+* []
+
+```c
+int* path;
+int pathTop;
+int** ans;
+int ansTop;
+//记录二维数组中每个一维数组的长度
+int* length;
+//将当前path数组复制到ans中
+void copy() {
+    int* tempPath = (int*)malloc(sizeof(int) * pathTop);
+    int i;
+    for(i = 0; i < pathTop; i++) {
+        tempPath[i] = path[i];
+    }
+    ans = (int**)realloc(ans, sizeof(int*) * (ansTop+1));
+    length[ansTop] = pathTop;
+    ans[ansTop++] = tempPath;
+}
+
+void backTracking(int* nums, int numsSize, int startIndex) {
+    //收集子集，要放在终止添加的上面，否则会漏掉自己
+    copy();
+    //若startIndex大于数组大小，返回
+    if(startIndex >= numsSize) {
+        return;
+    }
+    int j;
+    for(j = startIndex; j < numsSize; j++) {
+        //将当前下标数字放入path中
+        path[pathTop++] = nums[j];
+        backTracking(nums, numsSize, j+1);
+        //回溯
+        pathTop--;
+    }
+}
+
+int** subsets(int* nums, int numsSize, int* returnSize, int** returnColumnSizes){
+    //初始化辅助变量
+    path = (int*)malloc(sizeof(int) * numsSize);
+    ans = (int**)malloc(0);
+    length = (int*)malloc(sizeof(int) * 1500);
+    ansTop = pathTop = 0;
+    //进入回溯
+    backTracking(nums, numsSize, 0);
+    //设置二维数组中元素个数
+    *returnSize = ansTop;
+    //设置二维数组中每个一维数组的长度
+    *returnColumnSizes = (int*)malloc(sizeof(int) * ansTop);
+    int i;
+    for(i = 0; i < ansTop; i++) {
+        (*returnColumnSizes)[i] = length[i];
+    }
+    return ans;
+}
+```
+
+* []
+
+```swift
+func subsets(_ nums: [Int]) -> [[Int]] {
+    var result = [[Int]]()
+    var path = [Int]()
+    func backtracking(startIndex: Int) {
+        // 直接收集结果
+        result.append(path)
+
+        let end = nums.count
+        guard startIndex < end else { return } // 终止条件
+        for i in startIndex ..< end {
+            path.append(nums[i]) // 处理：收集元素
+            backtracking(startIndex: i + 1) // 元素不重复访问
+            path.removeLast() // 回溯
+        }
+    }
+    backtracking(startIndex: 0)
+    return result
+}
+```
+
+* []
+
+```scala
+// 思路一: 使用本题解思路
+object Solution {
+  import scala.collection.mutable
+  def subsets(nums: Array[Int]): List[List[Int]] = {
+    var result = mutable.ListBuffer[List[Int]]()
+    var path = mutable.ListBuffer[Int]()
+
+    def backtracking(startIndex: Int): Unit = {
+      result.append(path.toList) // 存放结果
+      if (startIndex >= nums.size) {
+        return
+      }
+      for (i <- startIndex until nums.size) {
+        path.append(nums(i)) // 添加元素
+        backtracking(i + 1)
+        path.remove(path.size - 1) // 删除
+      }
+    }
+
+    backtracking(0)
+    result.toList
+  }
+}
+
+// 思路二: 将原问题转换为二叉树，针对每一个元素都有**选或不选**两种选择，直到遍历到最后，所有的叶子节点即为本题的答案：
+object Solution {
+  import scala.collection.mutable
+  def subsets(nums: Array[Int]): List[List[Int]] = {
+    var result = mutable.ListBuffer[List[Int]]()
+
+    def backtracking(path: mutable.ListBuffer[Int], startIndex: Int): Unit = {
+      if (startIndex == nums.length) {
+        result.append(path.toList)
+        return
+      }
+      path.append(nums(startIndex))
+      backtracking(path, startIndex + 1)  // 选择元素
+      path.remove(path.size - 1)
+      backtracking(path, startIndex + 1)  // 不选择元素
+    }
+
+    backtracking(mutable.ListBuffer[Int](), 0)
+    result.toList
+  }
+}
+```
+
+# 回溯算法力扣题目总结
+
+按照如下顺序刷力扣上的题目，相信会帮你在学习回溯算法的路上少走很多弯路。
+
+* [关于回溯算法，你该了解这些！](https://programmercarl.com/回溯算法理论基础.html)
+* 组合问题
+  * [77.组合](https://programmercarl.com/0077.组合.html)
+  * [216.组合总和III](https://programmercarl.com/0216.组合总和III.html)
+  * [17.电话号码的字母组合](https://programmercarl.com/0017.电话号码的字母组合.html)
+  * [39.组合总和](https://programmercarl.com/0039.组合总和.html)
+  * [40.组合总和II](https://programmercarl.com/0040.组合总和II.html)
+* 分割问题
+  * [131.分割回文串](https://programmercarl.com/0131.分割回文串.html)
+  * [93.复原IP地址](https://programmercarl.com/0093.复原IP地址.html)
+* 子集问题
+  * [78.子集](https://programmercarl.com/0078.子集.html)
+  * [90.子集II](https://programmercarl.com/0090.子集II.html)
+* 排列问题
+  * [46.全排列](https://programmercarl.com/0046.全排列.html)
+  * [47.全排列II](https://programmercarl.com/0047.全排列II.html)
+* 棋盘问题
+  * [51.N皇后](https://programmercarl.com/0051.N皇后.html)
+  * [37.解数独](https://programmercarl.com/0037.解数独.html)
+* 其他
+  * [491.递增子序列](https://programmercarl.com/0491.递增子序列.html)
+  * [332.重新安排行程](https://programmercarl.com/0332.重新安排行程.html)
+* [回溯算法总结篇](https://programmercarl.com/回溯总结.html)
+
+**如果感觉题解对你有帮助，不要吝啬给一个👍吧！**
+

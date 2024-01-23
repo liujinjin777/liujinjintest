@@ -1,0 +1,64 @@
+> Problem: [6. N 字形变换](https://leetcode.cn/problems/zigzag-conversion/description/)
+
+[TOC]
+
+# 思路
+
+> 就是找变化后的字符串中每个字符的位置和变化前每个字符的位置之间有什么关系
+
+# 解题方法
+
+> 首先对一些特殊情况特殊判断处理
+
+1. 对于第一行和最后一行的字符特殊处理，因为他们都是间隔固定的间距`2numRows-2`.
+2. 对于中间的也还有规律，先是`2*(numRows-i-1)`(`i`是该行第一个字符的位置),然后是`2*i`,就这两种情况循环。
+
+# 复杂度
+
+时间复杂度:
+
+> 添加时间复杂度, 示例： $O(n)$
+
+空间复杂度:
+
+> 添加空间复杂度, 示例： $O(n)$
+
+# Code
+
+* []
+
+```C++
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        if(s.length()==1 or numRows==1)     //特殊情况特殊处理
+            return s;
+        string res="";
+        for(int i=0;i<s.length();i+=2*numRows-2)        //对一行处理
+            res+=s[i];
+        for(int i=1;i<numRows-1 and i<s.length();i++)
+        {
+            int flag=1;     //判断是第一种还是第二种情况
+            for(int j=i;j<s.length();)
+            {
+                if(flag)        //第一种情况
+                {
+                    res+=s[j];
+                    j+=2*(numRows-i-1);
+                    flag=0;
+                }
+                else        //第二种情况
+                {
+                    res+=s[j];
+                    j+=2*i;
+                    flag=1;
+                }
+            }
+        }
+        for(int i=numRows-1;i<s.length();i+=2*numRows-2)        //对最后一行处理
+            res+=s[i];
+        return res;        
+    }
+};
+```
+

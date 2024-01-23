@@ -1,0 +1,51 @@
+> Problem: [763. 划分字母区间](https://leetcode.cn/problems/partition-labels/description/)
+
+[TOC]
+
+# 思路
+
+    使用一个mp记录每个元素出现的个数
+    使用set记录当前序列中还活跃的元素
+    每次遍历到一个元素时：
+      将其加到set中
+      将mp[c] -= 1
+      如果mp[c] == 0了，代表后面不会出现c了
+          将c从set中移除
+      如果set的长度为0时，代表当前遍历过的所有元素在后面都不会出现了
+          此时维护res
+
+# 复杂度
+
+时间复杂度:
+
+> 添加时间复杂度, $O(n)$
+
+空间复杂度:
+
+> 添加空间复杂度, $O(n)$
+
+# Code
+
+* []
+
+```Python
+class Solution:
+    def partitionLabels(self, s: str) -> List[int]:
+        mp = defaultdict(int)
+        for c in s:
+            mp[c] += 1
+
+        cSet = set()
+        res = []
+        start = 0
+        for i, c in enumerate(s):
+            cSet.add(c)
+            mp[c] -= 1
+            if mp[c] == 0:
+                cSet.remove(c)
+            if len(cSet) == 0:
+                res.append(i - start + 1)
+                start = i + 1
+        return res
+```
+
